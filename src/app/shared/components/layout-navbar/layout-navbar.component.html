@@ -1,0 +1,238 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="example-toolbar justify-between content-center" >
+    <div class="flex-row flex items-center">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1 class="ml-2">Menu</h1>
+    </div>
+    <button
+    (click)="logout()"
+    mat-raised-button>
+      Salir
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+        @for (nav of items; track nav) {
+          @if(nav.items.length==0){
+            <mat-list-item class="flex justify-center" [routerLink]="nav.router" (click)="snav.toggle()">
+              <mat-icon matListItemIcon>{{nav.icon}}</mat-icon>
+              {{nav.name}}
+            </mat-list-item>
+          }@else {
+            @if (this.isAccess([
+                permissions.get_user,
+                permissions.create_user,
+                permissions.update_role_user,
+                permissions.reset_pass_user,
+                permissions.get_role,
+                permissions.create_role,
+                permissions.update_role,
+                permissions.delete_role
+              ])) {
+                @if (nav.name == 'Usuario') {
+                  <div class="p-1">
+                    <mat-expansion-panel hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>{{nav.icon}}</mat-icon>
+                        </mat-panel-title>
+                        <mat-panel-description> {{nav.name}} </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      @for (item of nav.items; track item) {
+                        @if (item.name == 'Usuarios') {
+                          @if (this.isAccess([
+                            permissions.get_user,
+                            permissions.create_user,
+                            permissions.reset_pass_user,
+                            permissions.update_role_user
+                          ])) {
+                            <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                              {{item.name}}
+                            </mat-list-item>
+                          }
+                        }@else if (item.name =='Roles') {
+                          @if (this.isAccess([
+                            permissions.get_role,
+                            permissions.create_role,
+                            permissions.update_role,
+                            permissions.delete_role
+                          ])) {
+                            <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                              {{item.name}}
+                            </mat-list-item>
+                          }
+                        }
+
+                      }
+                    </mat-expansion-panel>
+                  </div>
+                }
+              }
+
+            @if (this.isAccess([
+                permissions.get_product,
+                permissions.edit_product,
+                permissions.create_product,
+                permissions.delete_product,
+                permissions.get_detail_product,
+                permissions.create_detail_product,
+                permissions.update_detail_product
+              ])) {
+                @if (nav.name == 'Producto') {
+                  <div class="p-1">
+                    <mat-expansion-panel hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>{{nav.icon}}</mat-icon>
+                        </mat-panel-title>
+                        <mat-panel-description> {{nav.name}} </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      @for (item of nav.items; track item) {
+                        @if (item.name == 'Categoria') {
+                          @if (this.isAccess([
+                            permissions.get_category,
+                            permissions.create_category,
+                            permissions.update_category,
+                            permissions.delete_category
+                          ])) {
+                            <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                              {{item.name}}
+                            </mat-list-item>
+                          }
+                        }@else if (
+                          item.name == 'Inventario'
+                        ) {
+                          @if (this.isAccess([
+                          permissions.get_stock_in,
+                          permissions.get_stock_out,
+                          permissions.create_stock_in,
+                          permissions.create_stock_out,
+                          permissions.delete_stock_in,
+                          permissions.delete_stock_out,
+                        ])) {
+                          <div class="p-1">
+                            <mat-expansion-panel hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  <mat-icon>{{item.icon}}</mat-icon>
+                                </mat-panel-title>
+                                <mat-panel-description> {{item.name}} </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              @for (inv of item.items; track inv) {
+                                @if (inv.name == 'Entradas') {
+                                  @if (this.isAccess([
+                                    permissions.get_stock_in,
+                                    permissions.create_stock_in,
+                                    permissions.delete_stock_in
+                                  ])) {
+
+                                    <mat-list-item [routerLink]=inv.router (click)="snav.toggle()">
+                                      <mat-icon matListItemIcon>{{inv.icon}}</mat-icon>
+                                      {{inv.name}}
+                                    </mat-list-item>
+                                  }
+                                }@else if (inv.name == 'Salidas') {
+                                  @if (this.isAccess([
+                                    permissions.get_stock_out,
+                                    permissions.create_stock_out,
+                                    permissions.delete_stock_out
+                                  ])) {
+                                    <mat-list-item [routerLink]=inv.router (click)="snav.toggle()">
+                                      <mat-icon matListItemIcon>{{inv.icon}}</mat-icon>
+                                      {{inv.name}}
+                                    </mat-list-item>
+                                  }
+                                }
+                              }
+                            </mat-expansion-panel>
+                          </div>
+                        }
+                        }@else if (item.name =='Items') {
+                          @if (this.isAccess([
+                            permissions.create_product,
+                            permissions.edit_product,
+                            permissions.get_product,
+                            permissions.delete_product,
+                            permissions.create_detail_product,
+                            permissions.get_detail_product,
+                            permissions.update_detail_product
+                          ])) {
+                            <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                              {{item.name}}
+                            </mat-list-item>
+                          }
+                        }
+
+                      }
+                    </mat-expansion-panel>
+                  </div>
+                }
+            }
+            @if (
+              this.isAccess([
+                permissions.get_order,
+                permissions.create_order,
+                permissions.delete_order,
+                permissions.get_sale_return,
+                permissions.create_sale_return,
+                permissions.delete_sale_return
+              ])
+            ) {
+              @if(nav.name == 'Venta'){
+                <div class="p-1">
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <mat-icon>{{nav.icon}}</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description> {{nav.name}} </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    @for (item of nav.items; track item) {
+                      @if (item.name == 'Ventas') {
+                        @if (this.isAccess([
+                          permissions.get_order,
+                          permissions.create_order,
+                          permissions.delete_order
+                        ])) {
+                          <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                            <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                            {{item.name}}
+                          </mat-list-item>
+                        }
+                      }@else if (item.name == 'Devoluciones') {
+                        @if (this.isAccess([
+                          permissions.get_sale_return,
+                          permissions.create_sale_return,
+                          permissions.delete_sale_return
+                        ])) {
+                          <mat-list-item [routerLink]=item.router (click)="snav.toggle()">
+                            <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                            {{item.name}}
+                          </mat-list-item>
+                        }
+                      }
+                    }
+                  </mat-expansion-panel>
+                </div>
+              }
+            }
+          }
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet/>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

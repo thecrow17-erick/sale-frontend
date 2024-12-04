@@ -1,0 +1,36 @@
+
+export enum permission {
+  get_user =                 "ver usuario",
+  create_user =              "crear usuario",
+  update_role_user =         "editar rol de usuario",
+  reset_pass_user =          "reestablecer password",
+  get_role =                 "ver rol",
+  create_role =              "crear rol",
+  update_role =              "editar rol",
+  delete_role =              "eliminar rol",
+  get_category=              "ver categoria",
+  update_category=           "editar categoria",
+  create_category =          "crear categoria",
+  delete_category =          "eliminar categoria",
+  get_product =              "ver producto",
+  create_product=            "crear producto",
+  edit_product =             "editar producto",
+  delete_product =           "eliminar producto",
+  get_detail_product =       "ver detalle del producto",
+  create_detail_product =    "crear detalle del producto",
+  update_detail_product =    "editar detalle del producto",
+  get_stock_in =             "ver entrada de stock",
+  create_stock_in =          "crear entrada de stock",
+  delete_stock_in =          "eliminar entrada de stock",
+  get_stock_out=             "ver salida de stock",
+  create_stock_out =         "crear salida de stock",
+  delete_stock_out =         "eliminar salida de stock",
+  get_order =                "ver orden de venta",
+  create_order =             "crear orden de venta",
+  delete_order =             "eliminar orden de venta",
+  get_sale_return =          "ver devolucion de venta",
+  create_sale_return =       "crear devolucion de venta",
+  delete_sale_return =       "eliminar devolucion de venta"
+}
+
+

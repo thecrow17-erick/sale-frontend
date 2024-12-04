@@ -1,0 +1,50 @@
+<ng-container *ngFor="let err of errors()">
+  <mat-error>
+      {{err}}
+  </mat-error>
+</ng-container>
+<form [formGroup]="signinForm" (ngSubmit)="tapLogin()" class="flex flex-col">
+  <!-- Username Input -->
+  <mat-form-field class="mb-4">
+    <mat-label class="block text-gray-600">Username</mat-label>
+    <input matInput
+      formControlName="username"
+      placeholder="ej:thecrow"
+      type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
+    <!-- Password Input -->
+     <mat-error *ngIf="signinForm.get('username')?.hasError('required') && signinForm.get('username')?.touched">
+        Este campo es obligatorio
+     </mat-error>
+     <mat-error *ngIf="signinForm.get('username')?.hasError('minlength') && signinForm.get('username')?.touched">
+      Mínimo 5 caracteres
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="mb-4">
+    <mat-label class="block text-gray-600">Password</mat-label>
+    <input matInput
+    formControlName="password"
+    type="password"  class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
+
+    <mat-error *ngIf="signinForm.get('password')?.hasError('required') && signinForm.get('password')?.touched">
+      Este campo es obligatorio
+   </mat-error>
+   <mat-error *ngIf="signinForm.get('password')?.hasError('minlength') && signinForm.get('password')?.touched">
+    Mínimo 5 caracteres
+  </mat-error>
+  </mat-form-field>
+  <!-- Remember Me Checkbox -->
+  <div class="mb-4 flex items-center">
+    <mat-checkbox
+    type="checkbox"
+    class="text-blue-500 font-semibold"
+    >
+      Recordar
+    </mat-checkbox>
+  </div>
+  <!-- Login Button -->
+  <button mat-flat-button
+    type="submit"
+    class= "font-semibold rounded-md py-2 px-4 xl:w-2/4 w-full ">
+    Login
+  </button>
+</form>
